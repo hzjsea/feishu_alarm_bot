@@ -31,6 +31,14 @@ https://open.feishu.cn/tool/cardbuilder?from=ttrlbot3
 json to yaml
 https://onlineyamltools.com/convert-json-to-yaml
 
+## 环境设置
+设置环境参数，下载文件之后创建一个env文件
+```bash
+APP_ID = ""
+APP_SECRET = ""
+APP_VERIFICATION_TOKEN = ""
+
+```
 
 
 ## 权限管理

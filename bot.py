@@ -40,17 +40,17 @@ class RequestHandler(BaseHTTPRequestHandler):
             print("verification token not match, token =", token)
             self.response("")
             return
-        # { 'uuid': '371e9629c20131842fd245dc99a266a6', 'event': { 'app_id': 'cli_a0f784bae739900e', 'chat_type':
-        # 'private', 'employee_id': 'eg69gf36', 'is_mention': True, 'lark_version': 'lark/4.6.4', 'message_id': '',
-        # 'msg_type': 'text', 'open_chat_id': 'oc_7ca3b814f040ee46adfba9370780559e', 'open_id':
-        # 'ou_21cdbb2f082181e4bd7e1625fcfd1082', 'open_message_id': 'om_8b34b5b6b9ceae111ce37e4e58534229',
-        # 'parent_id': '', 'root_id': '', 'tenant_key': '2d36537b3e0f975e', 'text': '<at open_id =
-        # "ou_3bc93fdac4ddc80521734450c0c35e26" > @Shikamaru < /at> tt xx', 'text_without_at_bot': ' tt xx',
-        # 'type': 'message', 'union_id': 'on_6e2553569b842dc143f23f1588a8f250', 'user_agent': 'Mozilla/5.0 (
+        # { 'uuid': '', 'event': { 'app_id': '', 'chat_type':
+        # 'private', 'employee_id': '', 'is_mention': True, 'lark_version': 'lark/4.6.4', 'message_id': '',
+        # 'msg_type': 'text', 'open_chat_id': '', 'open_id':
+        # '', 'open_message_id': '',
+        # 'parent_id': '', 'root_id': '', 'tenant_key': '', 'text': '<at open_id =
+        # "" > @Shikamaru < /at> tt xx', 'text_without_at_bot': ' tt xx',
+        # 'type': 'message', 'union_id': '', 'user_agent': 'Mozilla/5.0 (
         # Macintosh;Intel Mac OS X 10 _14_6) AppleWebKit / 537.36(KHTML, like Gecko) Chrome / 89.0 .4389 .128 'Safari
         # / 537.36 Lark / 4.6 .4 LarkLocale / zh_CN ttnet SDK - Version / 4.6 .20 ', 'user_open_id
-        # ':'ou_21cdbb2f082181e4bd7e1625fcfd1082' }, 'token': 'BlkeeevdFlYi8dj9IJGXAbGYmbdrFNCo',
-        # 'ts': '1630045346.370087', 'type': 'event_callback' 根据 type 处理不同类型事件
+        # ':'' }, 'token': '',
+        # 'ts': '.370087', 'type': 'event_callback' 根据 type 处理不同类型事件
 
         type = obj.get("type", "")
         if "url_verification" == type:  # 验证请求 URL 是否有效
