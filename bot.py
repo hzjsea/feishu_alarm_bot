@@ -168,7 +168,7 @@ class RequestHandler(BaseHTTPRequestHandler):
         chat_type = kwargs.get('chat_type', "private")
         chat_id = kwargs.get("chat_id", " ")
 
-        url, req_body, method = bot.switch_type(type, open_id)
+        url, req_body, method = bot.switch_type(open_id=open_id, type=type)
 
         if chat_type == "group":
             req_body["chat_id"] = chat_id
