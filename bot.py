@@ -32,6 +32,7 @@ class RequestHandler(BaseHTTPRequestHandler):
         # 解析请求 body
         req_body = self.rfile.read(int(self.headers['content-length']))
         obj = json.loads(req_body.decode("utf-8"))
+        print(obj)
 
         # 校验 verification token 是否匹配，token 不匹配说明该回调并非来自开发平台
         token = obj.get("token", "")
