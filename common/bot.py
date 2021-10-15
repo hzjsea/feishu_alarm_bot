@@ -15,7 +15,7 @@ class MethodEnum(Enum):
     GET = 'GET'
 
 
-def switch_type(open_id: str, flag: str = "test") -> tuple[str, JSONType, MethodEnum]:
+def switch_type(open_id: str, flag: str = "test") -> (str, JSONType, MethodEnum):
     url = ""
     req_body = {}
     method = MethodEnum.POST
