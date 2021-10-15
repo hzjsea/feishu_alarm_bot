@@ -124,10 +124,8 @@ class RequestHandler(BaseHTTPRequestHandler):
         # tt command
         # xx value
         try:
-            text = event.get("text", "unknown_message").strip().split("</at> ")[1]
-            # 和机器人无关的消息
-            # text = event.get('text_without_at_bot'," nl").strip()
-            abbr = "unknown_message"
+            # text = event.get("text", "unknown_message").strip().split("</at> ")[1]
+            text = event.get('text_without_at_bot', "unknown_message").strip()
             subject = text
             if text:
                 text_list = text.split(" ")

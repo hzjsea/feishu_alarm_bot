@@ -17,15 +17,35 @@ class TimerTemplate(object):
 
     @staticmethod
     def cur_date():
-        # 2018-05-08 16:53:30.101000
+        """
+        :return: 2018-05-08 16:53:30.10100 :type datetime.datetime
+        """
         return datetime.datetime.now()
 
     @staticmethod
-    def date_to_str():
-        # 2018-05-08 16:54
+    def format_date():
+        """
+        :return: 2018-05-08 16:54 :type str
+        """
         return datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
 
     @staticmethod
-    def str_to_date():
-        pass
+    def date_cal():
+        """
+        多加一天
+        :return: 2021-10-14 15:29:03.93906 :type datetime.datetime
+        """
+        return datetime.datetime.now() + datetime.timedelta(days=1)
 
+    @staticmethod
+    def str_to_date():
+        now = datetime.datetime.now()  # datetime.datetime (type
+        t = now.strftime("%Y-%m-%d %H:%M")  # str
+        dt = datetime.datetime.strptime(t, "%Y-%m-%d %H:%M")  # datetime.datetime (type
+        print(now, dt)
+
+
+if __name__ == '__main__':
+    print(TimerTemplate.str_to_date())
+    print(type(datetime.datetime.now()))
+    TimerTemplate.str_to_date()
