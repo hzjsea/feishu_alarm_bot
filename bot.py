@@ -112,7 +112,7 @@ class RequestHandler(BaseHTTPRequestHandler):
             return
 
         # 调用发消息 API 之前，先要获取 API 调用凭证：tenant_access_token
-        access_token = self.get_tenant_access_token(self)
+        access_token = self.get_tenant_access_token()
         if access_token == "":
             self.response("access_token unknown error")
             return
@@ -200,15 +200,3 @@ class RequestHandler(BaseHTTPRequestHandler):
         code = rsp_dict.get("code", -1)
         if code != 0:
             print("send message error, code = ", code, ", msg =", rsp_dict.get("msg", ""))
-
-
-def run():
-    port = 8080
-    server_address = ('', port)
-    httpd = HTTPServer(server_address, RequestHandler)
-    print("start.....")
-    httpd.serve_forever()
-
-
-if __name__ == '__main__':
-    run()
