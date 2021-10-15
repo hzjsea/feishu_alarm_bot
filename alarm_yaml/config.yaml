@@ -1,0 +1,19 @@
+Temaplte:
+  module:
+    - alarm_name: feishu
+      auth: hzjsea
+      alarm_script_path: /root/
+      alarm_template_path: /root/
+      alarm_run_command: bash /root/
+      alarm_flag: true
+    - alarm_name: test
+      auth: hzjsss
+      alarm_script_path: /root/
+      alarm_template_path: /root/
+      alarm_run_command: bash /root/
+      alarm_flag: false
+  header:
+    template: orange
+    title:
+      content: 消息模板
+      tag: plain_text
