@@ -7,7 +7,7 @@
 @time: 2021/10/15 10:59 上午
 """
 from enum import Enum
-from utils import JSONType
+from .utils import JSONType
 
 
 class MethodEnum(Enum):

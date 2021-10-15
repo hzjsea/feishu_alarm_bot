@@ -1,5 +1,3 @@
-from os import EX_CONFIG
-
 from .utils import get_config, FilePathTemplate
 from .bot import MethodEnum
 
