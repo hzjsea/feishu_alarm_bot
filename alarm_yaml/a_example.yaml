@@ -1,0 +1,31 @@
+{
+  "config": {
+    "wide_screen_mode": true
+  },
+  "header": {
+    "template": "orange",
+    "title": {
+      "content": "消息模板",
+      "tag": "plain_text"
+    }
+  },
+  "i18n_elements": {
+    "zh_cn": [
+      {
+        "tag": "hr"
+      },
+      {
+        "tag": "markdown",
+        "content": "IP地址: {ip_address}\n标准emoji 😁😢🌞💼🏆❌✅\n*斜体*\n**粗体**\n~~删除线~~\n[文字链接](https://www.feishu.cn)\n[差异化跳转（桌面端和移动配置不同跳转链接）]($urlVal)\n<at id=all></at>",
+        "href": {
+          "urlVal": {
+            "url": "https://www.feishu.com",
+            "android_url": "https://developer.android.com/",
+            "ios_url": "lark://msgcard/unsupported_action",
+            "pc_url": "https://www.feishu.com"
+          }
+        }
+      }
+    ]
+  }
+}
