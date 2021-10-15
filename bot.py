@@ -126,7 +126,6 @@ class RequestHandler(BaseHTTPRequestHandler):
         try:
             # text = event.get("text", "unknown_message").strip().split("</at> ")[1]
             text = event.get('text_without_at_bot', "unknown_message").strip()
-            subject = text
             if text:
                 text_list = text.split(" ")
                 if len(text_list) >= 2:
@@ -134,6 +133,7 @@ class RequestHandler(BaseHTTPRequestHandler):
                     subject = str(text_list[1]).strip()
                 else:
                     abbr = text
+                    subject = ""
                 self.message_classification_to_send(
                     access_token,
                     event.get("open_id"),
@@ -148,16 +148,14 @@ class RequestHandler(BaseHTTPRequestHandler):
             return
 
     def message_classification_to_send(self, token, open_id, abbr, subject, *args, **kwargs):
+        print(f"{token} {open_id} {abbr} {subject}")
 
-        type = ""
-
+        type = "normal"
         for item in CommandType:
             # for循环中的唯一值
             if item["abbr"] == abbr:
                 type = item["type"]
                 break
-            else:
-                type = "normal"
 
         headers = {
             "Content-Type": "application/json; charset=utf-8",
