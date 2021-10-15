@@ -15,14 +15,14 @@ class MethodEnum(Enum):
     GET = 'GET'
 
 
-def switch_type(open_id: str, type: str = "test") -> tuple[str, JSONType, MethodEnum]:
+def switch_type(open_id: str, flag: str = "test") -> tuple[str, JSONType, MethodEnum]:
     url = ""
     req_body = {}
     method = MethodEnum.POST
 
-    if type == "alarm":
+    if flag == "alarm":
         pass
-    elif type == "chat":
+    elif flag == "chat":
         # 获取群号， 但是在聊天 send接口中也有 对应的是 chat_id 字段 必须放在req_body{} 一层下面
         # url = "https://open.feishu.cn/open-apis/chat/v4/list"
         # self.send_request(url=url, headers=headers, data=None,method=MethodEnum.GET)
@@ -56,7 +56,7 @@ def switch_type(open_id: str, type: str = "test") -> tuple[str, JSONType, Method
             }
         }
         method = MethodEnum.POST
-    elif type == "normal":
+    elif flag == "normal":
         url = "https://open.feishu.cn/open-apis/message/v4/send/"
         req_body = {
             "open_id": open_id,
@@ -80,7 +80,7 @@ def switch_type(open_id: str, type: str = "test") -> tuple[str, JSONType, Method
             }
         }
         method = MethodEnum.POST
-    elif type == "test":
+    elif flag == "test":
         url = "https://open.feishu.cn/open-apis/message/v4/send/"
         req_body = {
             "open_id": open_id,

@@ -184,7 +184,6 @@ class RequestHandler(BaseHTTPRequestHandler):
     @staticmethod
     def send_request(self, url, headers, method, data: Optional[Dict]):
 
-        req = ""
         if method.value == "POST":
             req = request.Request(url=url, data=data, headers=headers, method=str(method.value))
         elif method.value == "GET":
