@@ -16,16 +16,16 @@ class TimerTemplate(object):
         pass
 
     @staticmethod
-    def cur_date(self):
+    def cur_date():
         # 2018-05-08 16:53:30.101000
         return datetime.datetime.now()
 
     @staticmethod
-    def date_to_str(self):
+    def date_to_str():
         # 2018-05-08 16:54
         return datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
 
     @staticmethod
-    def str_to_date(self):
+    def str_to_date():
         pass
 

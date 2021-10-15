@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # --coding:utf-8--
-import statistics
 import sys
 from http.server import BaseHTTPRequestHandler, HTTPServer
 import json
@@ -78,7 +77,7 @@ class RequestHandler(BaseHTTPRequestHandler):
         self.wfile.write(body.encode())
 
     @staticmethod
-    def get_tenant_access_token(self):
+    def get_tenant_access_token():
         url = "https://open.feishu.cn/open-apis/auth/v3/tenant_access_token/internal/"
         headers = {
             "Content-Type": "application/json"
@@ -113,7 +112,7 @@ class RequestHandler(BaseHTTPRequestHandler):
             return
 
         # 调用发消息 API 之前，先要获取 API 调用凭证：tenant_access_token
-        access_token = self.get_tenant_access_token()
+        access_token = self.get_tenant_access_token(self)
         if access_token == "":
             self.response("access_token unknown error")
             return
@@ -168,7 +167,7 @@ class RequestHandler(BaseHTTPRequestHandler):
         chat_type = kwargs.get('chat_type', "private")
         chat_id = kwargs.get("chat_id", " ")
 
-        url, req_body, method = bot.switch_type(open_id=open_id, type=type)
+        url, req_body, method = bot.switch_type(open_id=open_id, flag=type)
 
         if chat_type == "group":
             req_body["chat_id"] = chat_id
@@ -182,7 +181,7 @@ class RequestHandler(BaseHTTPRequestHandler):
         self.send_request(url=url, headers=headers, data=data, method=method)
 
     @staticmethod
-    def send_request(self, url, headers, method, data: Optional[Dict]):
+    def send_request(url, headers, method, data: Optional[Dict]):
 
         if method.value == "POST":
             req = request.Request(url=url, data=data, headers=headers, method=str(method.value))
