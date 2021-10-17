@@ -7,9 +7,8 @@
 @time: 2021/10/15 10:59 上午
 """
 from enum import Enum
-from utils import JSONType, YamlParse
+from .utils import JSONType, YamlParse
 import os
-from setting import config
 
 
 class BOT(object):
