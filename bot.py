@@ -174,8 +174,8 @@ class RequestHandler(BaseHTTPRequestHandler):
         else:
             print("error, 当前不支持其他的聊天行为")
 
-        # data = bytes(json.dumps(req_body), encoding='utf8')
-        data = json.loads(req_body)
+        data = bytes(json.dumps(req_body), encoding='utf8')
+        # data = json.loads(req_body)
         self.send_request(url=url, headers=headers, data=data, method=method)
 
     @staticmethod
