@@ -1,13 +1,13 @@
 #!/usr/bin/env python
 # --coding:utf-8--
 import sys
-from http.server import BaseHTTPRequestHandler, HTTPServer
+from http.server import BaseHTTPRequestHandler
 import json
 from typing import Optional
 from urllib import request
-from common import APP_ID, APP_SECRET, APP_VERIFICATION_TOKEN
-from common import bot
+from common import bot, yaml_config
 from typing import Dict
+from setting import config
 
 CommandType = [
     {
@@ -36,7 +36,7 @@ class RequestHandler(BaseHTTPRequestHandler):
 
         # 校验 verification token 是否匹配，token 不匹配说明该回调并非来自开发平台
         token = obj.get("token", "")
-        if token != APP_VERIFICATION_TOKEN:
+        if token != config.APP_VERIFICATION_TOKEN:
             print("verification token not match, token =", token)
             self.response("")
             return
@@ -84,8 +84,8 @@ class RequestHandler(BaseHTTPRequestHandler):
             "Content-Type": "application/json"
         }
         req_body = {
-            "app_id": APP_ID,
-            "app_secret": APP_SECRET
+            "app_id": config.APP_ID,
+            "app_secret": config.APP_SECRET
         }
 
         data = bytes(json.dumps(req_body), encoding='utf8')
@@ -151,11 +151,12 @@ class RequestHandler(BaseHTTPRequestHandler):
         print(f"{token} {open_id} {abbr} {subject}")
 
         type = "normal"
-        for item in CommandType:
-            # for循环中的唯一值
-            if item["abbr"] == abbr:
-                type = item["type"]
-                break
+
+        for items in yaml_config["Temaplte"]["module"].values():
+            for instance in items:
+                if instance["abbr"] == abbr:
+                    type = instance["name"]
+                    break
 
         headers = {
             "Content-Type": "application/json; charset=utf-8",

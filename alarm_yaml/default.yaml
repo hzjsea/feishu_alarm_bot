@@ -1,0 +1,37 @@
+Temaplte:
+  module:
+    alarm:
+      - name: alarm1
+        abbr: am
+        author: hzjsea
+        # 运行的脚本路径
+        alarm_script_path: /root/
+        # 回答消息的模板路径
+        alarm_template_path: /root/
+        # 运行路径
+        alarm_run_command: bash /root/
+        # 是否开启
+        alarm_flag: true
+      - name: alarm2
+        abbr: am2
+        author: hzjsea
+        alarm_script_path: /root/
+        alarm_template_path: /root/
+        alarm_run_command: bash /root/
+        alarm_flag: false
+    chat:
+      - name: chat1
+        abbr: ct
+        author: hzjsea
+    ttt:
+      - name: test1
+        abbr: tt
+        author: hzjsea
+      - name: test2
+        abbr: tt2
+        author: hzjsea
+  header:
+    template: orange
+    title:
+      content: 消息模板
+      tag: plain_text

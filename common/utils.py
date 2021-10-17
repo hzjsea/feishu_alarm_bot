@@ -1,15 +1,9 @@
 import os
-import toml
 import yaml
 import typing as t
 
 
 JSONType = t.Union[str, int, float, bool, None, t.Dict[str, t.Any], t.List[t.Any]]
-
-
-def get_config():
-    config = toml.load(".env")
-    return config
 
 
 class YamlParse(object):
@@ -48,3 +42,4 @@ if __name__ == "__main__":
     yp = YamlParse()
     path = FilePathTemplate.show_super_path() + "/alarm_yaml/a_example.yaml"
     yp.yaml_to_json(path)
+    print(os.listdir(os.getcwd()))

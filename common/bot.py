@@ -7,7 +7,26 @@
 @time: 2021/10/15 10:59 上午
 """
 from enum import Enum
-from .utils import JSONType
+from utils import JSONType, YamlParse
+import os
+from setting import config
+
+
+class BOT(object):
+    def __init__(self):
+        pass
+
+    @staticmethod
+    def read_yaml():
+        cur_dir = os.path.dirname(os.path.dirname(__file__)) + "/alarm_yaml/"
+        f_list = os.listdir(cur_dir)
+
+        if "config.yaml" in f_list:
+            cur_dir = cur_dir + "config.yaml"
+        else:
+            cur_dir = cur_dir + "default.yaml"
+
+        return YamlParse.yaml_to_json(cur_dir)
 
 
 class MethodEnum(Enum):
@@ -22,7 +41,7 @@ def switch_type(open_id: str, flag: str = "test") -> (str, JSONType, MethodEnum)
 
     if flag == "alarm":
         pass
-    elif flag == "chat":
+    elif flag == "chat1":
         # 获取群号， 但是在聊天 send接口中也有 对应的是 chat_id 字段 必须放在req_body{} 一层下面
         # url = "https://open.feishu.cn/open-apis/chat/v4/list"
         # self.send_request(url=url, headers=headers, data=None,method=MethodEnum.GET)
@@ -47,7 +66,7 @@ def switch_type(open_id: str, flag: str = "test") -> (str, JSONType, MethodEnum)
                                     "tag": "at",
                                     # "user_id": "ou_21cdbb2f082181e4bd7e1625fcfd1082" # open_id
                                     "user_id": open_id
-                            }
+                                }
                             ]
                         ]
                     },
@@ -80,7 +99,7 @@ def switch_type(open_id: str, flag: str = "test") -> (str, JSONType, MethodEnum)
             }
         }
         method = MethodEnum.POST
-    elif flag == "test":
+    elif flag == "test1":
         url = "https://open.feishu.cn/open-apis/message/v4/send/"
         req_body = {
             "open_id": open_id,
@@ -102,4 +121,31 @@ def switch_type(open_id: str, flag: str = "test") -> (str, JSONType, MethodEnum)
             }
         }
         method = MethodEnum.POST
+    elif flag == "test2":
+        url = "https://open.feishu.cn/open-apis/message/v4/send/"
+        req_body = {
+            "open_id": open_id,
+            "msg_type": "post",
+            "card": {
+                "config": {
+                    "wide_screen_mode": True
+                },
+                "header": {
+                    "title": {
+                        "tag": "plain_text",
+                        "content": "this is header"
+                    }
+                },
+                "elements": []
+            }
+        }
+        method = MethodEnum.POST
+
     return url, req_body, method
+
+
+if __name__ == '__main__':
+    ss = BOT.read_yaml()
+    for items in ss["Temaplte"]["module"].values():
+        for instance in items:
+            print(instance)

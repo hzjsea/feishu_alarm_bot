@@ -1,9 +1,5 @@
-from .utils import get_config, FilePathTemplate
-from .bot import MethodEnum
+from .utils import FilePathTemplate
+from .bot import MethodEnum, BOT
 
-cfg = get_config()
 fpt = FilePathTemplate()
-
-APP_ID = cfg["APP_ID"]
-APP_SECRET = cfg["APP_SECRET"]
-APP_VERIFICATION_TOKEN = cfg["APP_VERIFICATION_TOKEN"]
+yaml_config = BOT.read_yaml()
