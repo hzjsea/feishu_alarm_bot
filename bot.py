@@ -9,21 +9,6 @@ from common import bot, yaml_config
 from typing import Dict
 from setting import config
 
-CommandType = [
-    {
-        "type": "chat",
-        "abbr": "ct"
-    },
-    {
-        "type": "alarm",
-        "abbr": "am"
-    },
-    {
-        "type": "test",
-        "abbr": "tt"
-    }
-]
-
 
 class RequestHandler(BaseHTTPRequestHandler):
 
@@ -134,29 +119,29 @@ class RequestHandler(BaseHTTPRequestHandler):
                 else:
                     abbr = text
                     subject = ""
-                self.message_classification_to_send(
-                    access_token,
-                    event.get("open_id"),
-                    abbr,
-                    subject,
-                    chat_id=event.get("open_chat_id", ""),
-                    chat_type=event.get("chat_type", "private")
-                )
+            else:
+                abbr = text
+                subject = ""
         except Exception as e:
             print("message parse error, error is ".format(e))
             self.response("")
             return
 
+        self.message_classification_to_send(
+            access_token,
+            event.get("open_id"),
+            abbr,
+            subject,
+            chat_id=event.get("open_chat_id", ""),
+            chat_type=event.get("chat_type", "private")
+        )
+
     def message_classification_to_send(self, token, open_id, abbr, subject, *args, **kwargs):
         print(f"{token} {open_id} {abbr} {subject}")
 
-        type = "normal"
-
-        for items in yaml_config["Temaplte"]["module"].values():
-            for instance in items:
-                if instance["abbr"] == abbr:
-                    type = instance["name"]
-                    break
+        req_body = None
+        url = None
+        method = None
 
         headers = {
             "Content-Type": "application/json; charset=utf-8",
@@ -165,7 +150,16 @@ class RequestHandler(BaseHTTPRequestHandler):
         chat_type = kwargs.get('chat_type', "private")
         chat_id = kwargs.get("chat_id", " ")
 
-        url, req_body, method = bot.switch_type(open_id=open_id, flag=type)
+        config_items = yaml_config["Temaplte"]["module"].values()
+
+        for items in config_items:
+            for instance in items:
+                if instance["abbr"] == abbr:
+                    type = instance.get("name", "normal")
+                    url, req_body, method = bot.switch_type(open_id=open_id, flag=type, instance=instance)
+                    break
+        if req_body is None:
+            print("req body parse error")
 
         if chat_type == "group":
             req_body["chat_id"] = chat_id
@@ -175,7 +169,6 @@ class RequestHandler(BaseHTTPRequestHandler):
             print("error, 当前不支持其他的聊天行为")
 
         data = bytes(json.dumps(req_body), encoding='utf8')
-        # data = json.loads(req_body)
         self.send_request(url=url, headers=headers, data=data, method=method)
 
     @staticmethod

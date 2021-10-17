@@ -16,7 +16,7 @@ Temaplte:
         abbr: am2
         author: hzjsea
         alarm_script_path: /root/
-        alarm_template_path: /root/
+        alarm_template_path: a_example.yaml
         alarm_run_command: bash /root/
         alarm_flag: false
     chat:
