@@ -34,6 +34,7 @@ class MethodEnum(Enum):
 
 
 def switch_type(open_id: str, flag: str = "test") -> (str, JSONType, MethodEnum):
+    print(open_id, flag)
     url = ""
     req_body = {}
     method = MethodEnum.POST
@@ -139,6 +140,8 @@ def switch_type(open_id: str, flag: str = "test") -> (str, JSONType, MethodEnum)
             }
         }
         method = MethodEnum.POST
+    else:
+        raise "flag is error"
 
     return url, req_body, method
 
