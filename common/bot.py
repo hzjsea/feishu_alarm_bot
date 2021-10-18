@@ -34,8 +34,9 @@ class MethodEnum(Enum):
     GET = 'GET'
 
 
-def switch_type(open_id: str, instance, flag: str = "test") -> (str, JSONType, MethodEnum):
+def switch_type(open_id: str, instance: str, flag: str = "test") -> (str, JSONType, MethodEnum):
 
+    instance = json.loads(instance)
     if "alarm_template_path" not in instance.keys():
         if flag == "alarm":
             pass

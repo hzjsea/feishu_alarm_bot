@@ -152,6 +152,7 @@ class RequestHandler(BaseHTTPRequestHandler):
             for instance in items:
                 if instance["abbr"] == abbr:
                     flag = instance.get("name", "normal")
+                    instance = json.dumps(instance)
                     url, req_body, method = bot.switch_type(open_id=open_id, flag=flag, instance=instance)
                     if req_body is None:
                         print("req body parse error")
