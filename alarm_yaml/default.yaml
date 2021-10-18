@@ -19,6 +19,15 @@ Temaplte:
         alarm_template_path: a_example.yaml
         alarm_run_command: bash /root/
         alarm_flag: false
+      - name: alarm3
+        abbr: am3
+        author: hzjsea
+        alarm_template_path: b_example.yaml
+    list:
+      - name: list1
+        abbr: ls
+        author: hzjsea
+        alarm_template_path: c_example.yaml
     chat:
       - name: chat1
         abbr: ct
