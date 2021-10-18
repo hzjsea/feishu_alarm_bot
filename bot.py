@@ -139,10 +139,6 @@ class RequestHandler(BaseHTTPRequestHandler):
     def message_classification_to_send(self, token, open_id, abbr, subject, *args, **kwargs):
         print(f"{token} {open_id} {abbr} {subject}")
 
-        req_body = None
-        url = None
-        method = None
-
         headers = {
             "Content-Type": "application/json; charset=utf-8",
             "Authorization": "Bearer " + token
@@ -155,21 +151,21 @@ class RequestHandler(BaseHTTPRequestHandler):
         for items in config_items:
             for instance in items:
                 if instance["abbr"] == abbr:
-                    type = instance.get("name", "normal")
-                    url, req_body, method = bot.switch_type(open_id=open_id, flag=type, instance=instance)
+                    flag = instance.get("name", "normal")
+                    url, req_body, method = bot.switch_type(open_id=open_id, flag=flag, instance=instance)
+                    if req_body is None:
+                        print("req body parse error")
+
+                    if chat_type == "group":
+                        req_body["chat_id"] = chat_id
+                    elif chat_type == "private":
+                        req_body = req_body
+                    else:
+                        print("error, 当前不支持其他的聊天行为")
+
+                    data = bytes(json.dumps(req_body), encoding='utf8')
+                    self.send_request(url=url, headers=headers, data=data, method=method)
                     break
-        if req_body is None:
-            print("req body parse error")
-
-        if chat_type == "group":
-            req_body["chat_id"] = chat_id
-        elif chat_type == "private":
-            req_body = req_body
-        else:
-            print("error, 当前不支持其他的聊天行为")
-
-        data = bytes(json.dumps(req_body), encoding='utf8')
-        self.send_request(url=url, headers=headers, data=data, method=method)
 
     @staticmethod
     def send_request(url, headers, method, data: Optional[Dict]):
