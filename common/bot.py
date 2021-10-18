@@ -35,10 +35,6 @@ class MethodEnum(Enum):
 
 
 def switch_type(open_id: str, instance, flag: str = "test") -> (str, JSONType, MethodEnum):
-    print(open_id, flag)
-    url = ""
-    req_body = {}
-    method = MethodEnum.POST
 
     if "alarm_template_path" not in instance.keys():
         if flag == "alarm":
@@ -140,7 +136,7 @@ def switch_type(open_id: str, instance, flag: str = "test") -> (str, JSONType, M
         template = json.loads(template)
         req_body["card"] = template
 
-    return url, req_body, method
+        return url, req_body, method
 
 
 if __name__ == '__main__':
