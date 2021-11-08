@@ -87,7 +87,6 @@ class RequestHandler(BaseHTTPRequestHandler):
         if code != 0:
             print("get tenant_access_token error, code =", code)
             return ""
-        print(rsp_dict.get("tenant_access_token", ""))
         return rsp_dict.get("tenant_access_token", "")
 
     def handle_message(self, event):
@@ -154,7 +153,7 @@ class RequestHandler(BaseHTTPRequestHandler):
                 if instance["abbr"] == abbr:
                     flag = instance.get("name", "normal")
                     instance = json.dumps(instance)
-                    url, req_body, method = bot.switch_type(open_id=open_id, flag=flag, instance=instance)
+                    url, req_body, method = bot.switch_type(open_id=open_id, flag=flag, instance=instance, subject=subject)
                     if req_body is None:
                         print("req body parse error")
 

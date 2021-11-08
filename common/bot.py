@@ -10,7 +10,7 @@ from enum import Enum
 from .utils import JSONType, YamlParse, FilePathTemplate
 import os
 import json
-
+import subprocess
 
 class BOT(object):
     def __init__(self):
@@ -33,93 +33,14 @@ class MethodEnum(Enum):
     POST = 'POST'
     GET = 'GET'
 
+def subprocess_getoutput(stmt):
+    print(stmt)
+    result = subprocess.getoutput(stmt)
+    return result
 
-def switch_type(open_id: str, instance: str, flag: str = "test") -> (str, JSONType, MethodEnum):
+def switch_type(open_id: str, instance: str, subject: str, flag: str = "test") -> (str, JSONType, MethodEnum):
 
     instance = json.loads(instance)
-    # if "alarm_template_path" not in instance.keys():
-    #     if flag == "alarm":
-    #         pass
-    #     elif flag == "chat1":
-    #         # 获取群号， 但是在聊天 send接口中也有 对应的是 chat_id 字段 必须放在req_body{} 一层下面
-    #         # url = "https://open.feishu.cn/open-apis/chat/v4/list"
-    #         # self.send_request(url=url, headers=headers, data=None,method=MethodEnum.GET)
-    #
-    #         url = "https://open.feishu.cn/open-apis/message/v4/send/"
-    #         req_body = {
-    #             "open_id": open_id,
-    #             "msg_type": "post",
-    #             # "chat_id":"oc_75073e8c0265baab97ddb0082f4b260c",
-    #             "content": {
-    #                 "post": {
-    #                     "zh_cn": {
-    #                         # "title": "无对应指令,指令列表如下",
-    #                         "content": [
-    #                             [
-    #                                 {
-    #                                     "tag": "text",
-    #                                     "un_escape": True,
-    #                                     "text": "你好"
-    #                                 },
-    #                                 {
-    #                                     "tag": "at",
-    #                                     # "user_id": "ou_21cdbb2f082181e4bd7e1625fcfd1082" # open_id
-    #                                     "user_id": open_id
-    #                                 }
-    #                             ]
-    #                         ]
-    #                     },
-    #
-    #                 }
-    #             }
-    #         }
-    #         method = MethodEnum.POST
-    #     elif flag == "normal":
-    #         url = "https://open.feishu.cn/open-apis/message/v4/send/"
-    #         req_body = {
-    #             "open_id": open_id,
-    #             "msg_type": "post",
-    #             "content": {
-    #                 "post": {
-    #                     "zh_cn": {
-    #                         "title": "无对应指令,指令列表如下",
-    #                         "content": [
-    #                             [
-    #                                 {
-    #                                     "tag": "text",
-    #                                     "un_escape": True,
-    #                                     "text": "wm tt ct"
-    #                                 }
-    #                             ]
-    #                         ]
-    #                     },
-    #
-    #                 }
-    #             }
-    #         }
-    #         method = MethodEnum.POST
-    #     elif flag == "test1":
-    #         url = "https://open.feishu.cn/open-apis/message/v4/send/"
-    #         req_body = {
-    #             "open_id": open_id,
-    #             "msg_type": "post",
-    #             "content": {
-    #                 "post": {
-    #                     "zh_cn": {
-    #                         "title": "我是一个标题",
-    #                         "content": [
-    #                             [
-    #                                 {
-    #                                     "tag": "text",
-    #                                     "text": "着火啦"
-    #                                 },
-    #                             ],
-    #                         ]
-    #                     }
-    #                 }
-    #             }
-    #         }
-    #         method = MethodEnum.POST
 
     if "alarm_template_path" in instance.keys():
         alarm_template_path = instance.get("alarm_template_path", "")
@@ -132,11 +53,58 @@ def switch_type(open_id: str, instance: str, flag: str = "test") -> (str, JSONTy
             "msg_type": "interactive",
             "card": {}
         }
+
         if alarm_template_path is not None and alarm_flag:
             template_path = os.getcwd() + "/alarm_yaml/" + alarm_template_path
             template = open(template_path, 'r+').read()
             template = json.loads(template)
             req_body["card"] = template
 
+        if alarm_run_command is not None and alarm_flag:
+            # find cmd director
+            cmd_file = os.path.dirname(os.getcwd()) + "/feishu_alarm_bot/cmd/" + alarm_run_command
+
+            if subject:
+                res = subprocess_getoutput(f"bash {cmd_file} {subject}")
+            else:
+                res = subprocess_getoutput(f"bash {cmd_file}")
+
+
+            tmp = json.loads(res)["data"]["valueRange"]["values"][0]
+            try:
+                xx = "\n".join([str(a) for a in tmp])
+            except Exception as e:
+                print(e)
+                xx = res
+            req_body["card"]["i18n_elements"]["zh_cn"][1]["content"] = xx
+
 
         return url, req_body, method
+
+
+
+# import os
+# import subprocess
+# import json
+#
+# def subprocess_getoutput(stmt):
+#     result = subprocess.getoutput(stmt)
+#     # 执行失败不需要特殊处理，因为该方法无法判断失败成功，只负责将结果进行返回
+#     return result
+#
+#
+# cmd_file = os.path.dirname(os.getcwd()) + "/feishu_alarm_bot/cmd/" + "a.sh"
+# subject = "192.168.14.101"
+# if subject:
+#     res = subprocess_getoutput(f"bash {cmd_file} {subject}")
+#     #res = os.popen(f"bash {cmd_file} {subject}")
+#     # res = os.system(f"bash {cmd_file} {subject}")
+# else:
+#     res = subprocess_getoutput(f"bash {cmd_file}")
+#     #res = os.popen(f"bash {cmd_file}")
+#     # res = os.system(f"bash {cmd_file}")
+#
+# print(type(res))
+# print(res)
+
+# print(json.loads(res))

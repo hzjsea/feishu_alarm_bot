@@ -18,11 +18,17 @@ Temaplte:
         alarm_script_path: /root/
         alarm_template_path: a_example.yaml
         alarm_run_command: bash /root/
-        alarm_flag: false
+        alarm_flag: true
       - name: alarm3
         abbr: am3
         author: hzjsea
         alarm_template_path: b_example.yaml
+      - name: search
+        abbr: s
+        author: hzjsea
+        alarm_template_path: a_example.yaml
+        alarm_run_command: a.sh
+        alarm_flag: true
     list:
       - name: list1
         abbr: ls
