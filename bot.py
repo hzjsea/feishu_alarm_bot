@@ -87,6 +87,7 @@ class RequestHandler(BaseHTTPRequestHandler):
         if code != 0:
             print("get tenant_access_token error, code =", code)
             return ""
+        print(rsp_dict.get("tenant_access_token", ""))
         return rsp_dict.get("tenant_access_token", "")
 
     def handle_message(self, event):
