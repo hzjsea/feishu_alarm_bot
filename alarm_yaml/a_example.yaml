@@ -5,7 +5,7 @@
   "header": {
     "template": "orange",
     "title": {
-      "content": "消息模板",
+      "content": "消息内容",
       "tag": "plain_text"
     }
   },
